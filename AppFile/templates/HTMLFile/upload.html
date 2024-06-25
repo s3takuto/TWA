@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script 
+    src="{{ url_for('static', filename='javascript/cancelDisabled.js') }}">
+</script> 
+
+<div class="container mt-4">
+    <h2>Upload Video</h2>
+    <form action="/upload/done" enctype="multipart/form-data" method="POST">
+        <div class="form-check form-check-inline">
+            <input type="file" id="fl" name="video" 
+                   accept="video/*" onchange="fileUploaded()">
+            <input type="submit" id="sb" value="Upload" disabled="true">
+        </div>
+    </form>
+    <p><a href="{{url_for('home')}}">BUCK TO HOME</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    const FPS = Number("{{ FPS }}");
+</script>
+<script type="text/javascript" 
+        src="{{ url_for('static', filename='javascript/selectFrame.js') }}">
+</script>
+
+<div class="container mt-4">
+    <h2>Select First and Final Frames</h2>
+    <form action="/trimming/done" enctype="multipart/form-data" 
+          method="POST" onsubmit="cancelDisabled()">
+        <video src="{{ VPath }}" id="sframe" width="600"></video>
+        <br>
+
+        FIRST FRAME: 
+        <input type="number" id="sfNum" name="sfNum" value="1" 
+               min="1" max="{{FFN}}" disabled="true"> : 
+        <input type="button" value="&lt;10" onclick="SLshift(10)">
+        <input type="button" value="&lt;" onclick="SLshift(1)">
+        <input type="button" value="&gt;" onclick="SRshift(1)">
+        <input type="button" value="10&gt;" onclick="SRshift(10)">
+        <br><br>
+
+        <video src="{{ VPath }}" id="eframe" width="600"></video>
+        <br>
+        
+        FINAL FRAME: 
+        <input type="number" id="efNum" name="efNum" value="{{FFN}}" 
+               min="1" max="{{FFN}}" disabled="true"> : 
+        <input type="button" value="&lt;10" onclick="ELshift(10)">
+        <input type="button" value="&lt;" onclick="ELshift(1)">
+        <input type="button" value="&gt;" onclick="ERshift(1)">
+        <input type="button" value="10&gt;" onclick="ERshift(10)">
+        <br><br>
+
+        <input type="submit" value="DEIOSION">
+    </form>
+
+    <p><a href="{{url_for('home')}}">BUCK TO HOME</a></p>
+</div>
+{% endblock %}

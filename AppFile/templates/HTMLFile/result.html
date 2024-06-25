@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<div class="container mt-4">
+    <h2>RESULTS</h2>
+        <p>
+            {{Formula.MSEX}}<br>
+            {{Formula.xt}}<br>
+            {{Formula.vxt}}<br>
+            {{Formula.axt}}<br>
+            <img src="{{Path.xt}}" alt="{{Path.xt}}" width="300">
+            <img src="{{Path.vxt}}" alt="{{Path.vxt}}" width="300">
+            <img src="{{Path.axt}}" alt="{{Path.axt}}" width="300">
+        </p>
+        <p> 
+            {{Formula.MSEY}}<br>
+            {{Formula.yt}}<br>
+            {{Formula.vyt}}<br>
+            {{Formula.ayt}}<br>
+            <img src="{{Path.yt}}" alt="{{Path.yt}}" width="300">  
+            <img src="{{Path.vyt}}" alt="{{Path.vyt}}" width="300">    
+            <img src="{{Path.ayt}}" alt="{{Path.ayt}}" width="300">
+        </p>
+        <p><a href="{{CSV}}" download="PositionData.csv">Download CSV File</a></p>
+        <br>
+        <p><a href="{{url_for('changeMethod')}}">CHANGE METHODS</a></p>
+        <p><a href="{{url_for('home')}}">BACK TO HOME</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<script type="text/javascript">
+    const imagePath = "{{FFPath}}";
+</script>
+<script type="text/javascript" 
+    src="{{ url_for('static', filename='javascript/selectObject.js') }}">
+</script>
+
+<div class="container mt-4">
+    <h2>Input Object's Data</h2>
+
+    <form name="selectMode">
+        <input type="radio" name="mode" checked="true">Base Object<br>
+        <input type="radio" name="mode">Tracked Object<br>
+    </form>
+    <canvas id="canvas" onmousedown="OnMousedown(event)" 
+                        onmousemove="OnMousemove(event)" 
+                        onmouseup="OnMouseup(event)">
+    </canvas>
+    <form action="/set/done" method="POST" enctype="multipart/form-data">
+        LENGTH: <input type="number" id="length" name="length" onchange="check()">
+        <select name="unit">
+            <option value="milli_meter">mm</option>  
+            <option value="centi_meter">cm</option>          
+            <option value="metre">m</option>
+        </select>
+        <br><br>
+        FORWARD DIRECTION: <br>
+        <ul>
+            X: <select name="Xforward" style="width: 100px;">
+                <option value="right" checked="true">RIGHT</option>
+                <option value="left">LEFT</option>
+            </select><br>
+            Y: <select name="Yforward" style="width: 100px;">
+                <option value="upward" checked="true">UPWARD</option>
+                <option value="downward">DOWNWARD</option>
+            </select><br><br>
+        </ul>
+        INITIAL POSITION: <br>
+        <ul>
+            X: 
+            <input type="number" id="XIP" name="XIP" value="0" onchange="check()">
+            <select name="XIPunit">
+                <option value="milli_meter">mm</option>  
+                <option value="centi_meter">cm</option>          
+                <option value="metre">m</option>
+            </select><br>
+            Y: 
+            <input type="number" id="YIP" name="YIP" value="0" onchange="check()">
+            <select name="YIPunit">
+                <option value="milli_meter">mm</option>  
+                <option value="centi_meter">cm</option>          
+                <option value="metre">m</option>
+            </select><br><br>
+        </ul>
+        SET INITIAL VELOCITY TO '0' [m/s]: <br>
+        <ul>
+            <input type="checkbox" name="XIV" value="1">X DIRECTION<br>
+            <input type="hidden" name="XIV" value="0">
+            <input type="checkbox" name="YIV" value="1">Y DIRECTION<br>
+            <input type="hidden" name="YIV" value="0">
+        </ul>
+        <br><input type="submit" id="decision" value="DECISION" disabled="true">
+    </form>
+    <p><a href="{{url_for('upload')}}">CHANGE VIDEO FILE</a></p>
+    <p><a href="{{url_for('home')}}">BUCK TO HOME</a></p>
+</div>
+{% endblock %}
