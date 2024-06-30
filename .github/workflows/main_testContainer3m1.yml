@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://ghcr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_6b937c4c987c4591805b54e1547180ed }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_d2f7ca8239ae483a85d7e8e434719e13 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_6cf08781da814091a0aa3d715414bac5 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_276ee03e6fa64d20aad0ebb179ec5faa }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ghcr.io/${{ secrets.AzureAppService_ContainerUsername_6b937c4c987c4591805b54e1547180ed }}/ghcr.io/s3takuto/twa-image:${{ github.sha }}
+        tags: ghcr.io/${{ secrets.AzureAppService_ContainerUsername_6cf08781da814091a0aa3d715414bac5 }}/ghcr.io/s3takuto/twa-image:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'testContainer3m1'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2931183d56bb49a1802d247a62e92b3f }}
-        images: 'ghcr.io/${{ secrets.AzureAppService_ContainerUsername_6b937c4c987c4591805b54e1547180ed }}/ghcr.io/s3takuto/twa-image:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_bbba535da3ec4c7a844f135a5e2268c1 }}
+        images: 'ghcr.io/${{ secrets.AzureAppService_ContainerUsername_6cf08781da814091a0aa3d715414bac5 }}/ghcr.io/s3takuto/twa-image:${{ github.sha }}'
