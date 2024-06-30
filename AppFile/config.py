@@ -1,4 +1,4 @@
-DEBUG = True
+DEBUG = False
 THREADED = True
 SECRET_KEY = 'ZEaNDKi4PYC3hQw40X0WthRtYaAyfbVS'
 UPLOAD_FOLDER = './AppFile/static/UploadFiles'
