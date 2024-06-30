@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0
 
+RUN mkdir -p /app/AppFile/static/UploadFiles && chmod -R 777 /app/AppFile/static/UploadFiles
+
 COPY . .
 
 CMD [ "gunicorn", "--bind=0.0.0.0:8000", "--timeout", "600", "server:app" ]
