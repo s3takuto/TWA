@@ -300,7 +300,7 @@ def makeCSV(t, x, y, origname):
         rows = [[t[i], x[i], y[i]] for i in range(len(t))]
         writer.writerows(rows)
 
-        return "./static/csv/"+origname+".csv"
+    return "./static/csv/"+origname+".csv"
 
 #各種グラフを作成
 def makeGraph(xm, ym, time, x, y, origname, offset):
