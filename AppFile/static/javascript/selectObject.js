@@ -34,6 +34,14 @@ window.onload = function () {
     XIP = document.getElementById("XIP");
     YIP = document.getElementById("YIP");
     submitButton = document.getElementById("decision");
+
+    canvas.addEventListener("mousedown", OnMousedown);
+    canvas.addEventListener("mousemove", OnMousemove);
+    canvas.addEventListener("mouseup", OnMouseup);
+
+    canvas.addEventListener("touchstart", OnMousedown);
+    canvas.addEventListener("touchmove", OnMousemove);
+    canvas.addEventListener("touchend", OnMouseup);
 }
 function OnMousedown(event){
     checkRadio();
@@ -91,6 +99,7 @@ function OnMousemove(event){
         ctx.stroke();
     }
 }
+
 function canselDisabled(){
     if (baseFlag && trackFlag && textBoxFlag){
         submitButton.disabled = false;
