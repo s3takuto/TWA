@@ -51,13 +51,15 @@ function drawStart(event){
     //開始点の画面上の座標を取得
     var clientX, clientY;
     if (event instanceof MouseEvent){
-        clientX = event.clientX;
-        clientY = event.clientY;
-        alert("MouseEvent"+clientX);
+        clientX = parseInt(event.clientX);
+        clientY = parseInt(event.clientY);
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
     }
+
+    
+    alert("MouseEvent"+clientX);
 
     if (selectBaseFlag){
         lineFlag = true;
@@ -106,8 +108,8 @@ function draw(str){
 function OnMousemove(event){
     var clientX, clientY;
     if (event instanceof MouseEvent){
-        clientX = event.clientX;
-        clientY = event.clientY;
+        clientX = parseInt(event.clientX);
+        clientY = parseInt(event.clientY);
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
