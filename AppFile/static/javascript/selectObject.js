@@ -41,9 +41,10 @@ window.onload = function () {
     
     //描画中
     canvas.addEventListener("mousemove", OnMousemove);
-    canvas.addEventListener("mouseup", OnMouseup);
-
     canvas.addEventListener("touchmove", OnMousemove);
+
+    //描画終了
+    canvas.addEventListener("mouseup", OnMouseup);
     canvas.addEventListener("touchend", OnMouseup);
 }
 function drawStart(event){
@@ -52,6 +53,7 @@ function drawStart(event){
     if (event instanceof MouseEvent){
         clientX = event.clientX;
         clientY = event.clientY;
+        alert("MouseEvent");
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
@@ -102,6 +104,7 @@ function draw(str){
     }
 }
 function OnMousemove(event){
+    alert("UP");
     var clientX, clientY;
     if (event instanceof MouseEvent){
         clientX = event.clientX;
