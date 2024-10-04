@@ -1,4 +1,4 @@
-var canvas, ctx, img;
+var canvas, ctx, img;   //キャンバス，コンテキスト，画像
 var length, XIP, YIP;
 var submitButton;
 var baseFlag = trackFlag = false;
@@ -27,7 +27,7 @@ window.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        ctx.strokeStyle = 'rgb('+99+','+237+','+1+')';
+        ctx.strokeStyle = 'rgb('+99+','+237+','+1+')';  //RGB(99,237,1) 黄緑色
         ctx.lineWidth = 2;
     }
     length = document.getElementById("length");
@@ -35,16 +35,41 @@ window.onload = function () {
     YIP = document.getElementById("YIP");
     submitButton = document.getElementById("decision");
 
-    canvas.addEventListener("mousedown", OnMousedown);
+    //描画開始
+    canvas.addEventListener("mousedown", drawStart);
+    canvas.addEventListener("touchstart", drawStart);
+    
+    //描画中
     canvas.addEventListener("mousemove", OnMousemove);
     canvas.addEventListener("mouseup", OnMouseup);
 
-    canvas.addEventListener("touchstart", OnMousedown);
     canvas.addEventListener("touchmove", OnMousemove);
     canvas.addEventListener("touchend", OnMouseup);
 }
-function OnMousedown(event){
-    checkRadio();
+function drawStart(event){
+    //開始点の画面上の座標を取得
+    if (event instanceof MouseEvent){
+        clientX = event.clientX
+        clientY = event.clientY
+    }else if (event instanceof TouchEvent){
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+    }
+
+    if (selectBaseFlag){
+        lineFlag = true;
+        rectFlag = false;
+        var line = event.target.getBoundingClientRect();
+        line_sx = line_ex = clientX - line.left;
+        line_sy = line_ey = clientY - line.top;
+    }else if (selectTrackFlag){
+        rectFlag = true;
+        lineFlag = false;
+        var rect = event.target.getBoundingClientRect();
+        rect_sx = rect_ex = clientX - rect.left;
+        rect_sy = rect_ey = clientY - rect.top;
+    }
+/* 
     if (selectBaseFlag){
         lineFlag = true;
         rectFlag = false;
@@ -58,6 +83,7 @@ function OnMousedown(event){
         rect_sx = rect_ex = event.clientX - rect.left;
         rect_sy = rect_ey = event.clientY - rect.top;
     }
+*/
 }
 function draw(str){
     if (str == "line"){
@@ -75,7 +101,39 @@ function draw(str){
     }
 }
 function OnMousemove(event){
+    if (event instanceof MouseEvent){
+        clientX = event.clientX
+        clientY = event.clientY
+    }else if (event instanceof TouchEvent){
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+    }
+
     if (lineFlag){
+        var line = event.target.getBoundingClientRect();
+        line_ex = clientX - line.left;
+        line_ey = clientY - line.top;
+        ctx.drawImage(img, 0, 0);
+        ctx.beginPath();
+        draw("line");
+        if (trackFlag){
+            draw("rect")
+        }
+        ctx.stroke();
+    }else if (rectFlag){
+        var rect = event.target.getBoundingClientRect();
+        rect_ex = event.clientX - rect.left;
+        rect_ey = event.clientY - rect.top;
+        ctx.drawImage(img, 0, 0);
+        ctx.beginPath();
+        draw("rect");
+        if (baseFlag){
+            draw("line");
+        }
+        ctx.stroke();
+    }
+    /*
+        if (lineFlag){
         var line = event.target.getBoundingClientRect();
         line_ex = event.clientX - line.left;
         line_ey = event.clientY - line.top;
@@ -98,6 +156,7 @@ function OnMousemove(event){
         }
         ctx.stroke();
     }
+*/
 }
 
 function canselDisabled(){
