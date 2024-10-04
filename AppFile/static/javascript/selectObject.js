@@ -53,7 +53,7 @@ function drawStart(event){
     if (event instanceof MouseEvent){
         clientX = event.clientX;
         clientY = event.clientY;
-        alert("MouseEvent");
+        alert("MouseEvent"+clientX);
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
@@ -104,7 +104,6 @@ function draw(str){
     }
 }
 function OnMousemove(event){
-    alert("UP");
     var clientX, clientY;
     if (event instanceof MouseEvent){
         clientX = event.clientX;
@@ -163,8 +162,8 @@ function OnMousemove(event){
     }
 */
 }
-
 function canselDisabled(){
+    alert("UP")
     if (baseFlag && trackFlag && textBoxFlag){
         submitButton.disabled = false;
     }else{
