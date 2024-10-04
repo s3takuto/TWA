@@ -48,9 +48,10 @@ window.onload = function () {
 }
 function drawStart(event){
     //開始点の画面上の座標を取得
+    var clientX, clientY;
     if (event instanceof MouseEvent){
-        clientX = event.clientX
-        clientY = event.clientY
+        clientX = event.clientX;
+        clientY = event.clientY;
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
@@ -101,9 +102,10 @@ function draw(str){
     }
 }
 function OnMousemove(event){
+    var clientX, clientY;
     if (event instanceof MouseEvent){
-        clientX = event.clientX
-        clientY = event.clientY
+        clientX = event.clientX;
+        clientY = event.clientY;
     }else if (event instanceof TouchEvent){
         clientX = event.touches[0].clientX;
         clientY = event.touches[0].clientY;
@@ -122,8 +124,8 @@ function OnMousemove(event){
         ctx.stroke();
     }else if (rectFlag){
         var rect = event.target.getBoundingClientRect();
-        rect_ex = event.clientX - rect.left;
-        rect_ey = event.clientY - rect.top;
+        rect_ex = clientX - rect.left;
+        rect_ey = clientY - rect.top;
         ctx.drawImage(img, 0, 0);
         ctx.beginPath();
         draw("rect");
