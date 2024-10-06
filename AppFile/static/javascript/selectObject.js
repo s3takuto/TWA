@@ -9,15 +9,6 @@ var line_sx = line_sy = line_ex = line_ey = -1;
 var rectFlag = false;
 var rect_sx = rect_sy = rect_ex = rect_ey = -1;
 
-function checkRadio(){
-    if (document.selectMode.mode[0].checked){
-        selectBaseFlag = true;
-        selectTrackFlag = false;
-    }else if (document.selectMode.mode[1].checked){
-        selectBaseFlag = false;
-        selectTrackFlag = true;
-    }
-}
 window.onload = function () {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
@@ -35,7 +26,28 @@ window.onload = function () {
     XIP = document.getElementById("XIP");
     YIP = document.getElementById("YIP");
     submitButton = document.getElementById("decision");
+
+    //MouseEvent
+    canvas.addEventListener("mousedown", OnMousedown);
+    canvas.addEventListener("mousemove", OnMousemove);
+    canvas.addEventListener("mouseup", OnMouseup);
+
+    //TouchEvent
+    canvas.addEventListener("touchstart", OnMousedown);
+    canvas.addEventListener("touchmove", OnMousemove);
+    canvas.addEventListener("touchend", OnMouseup);
 }
+
+function checkRadio(){
+    if (document.selectMode.mode[0].checked){
+        selectBaseFlag = true;
+        selectTrackFlag = false;
+    }else if (document.selectMode.mode[1].checked){
+        selectBaseFlag = false;
+        selectTrackFlag = true;
+    }
+}
+
 function OnMousedown(event){
     checkRadio();
     var clientX, clientY;
@@ -88,8 +100,8 @@ function OnMousemove(event){
     }
     if (lineFlag){
         var line = event.target.getBoundingClientRect();
-        line_ex = event.clientX - line.left;
-        line_ey = event.clientY - line.top;
+        line_ex = clientX - line.left;
+        line_ey = clientY - line.top;
         ctx.drawImage(img, 0, 0);
         ctx.beginPath();
         draw("line");
@@ -99,8 +111,8 @@ function OnMousemove(event){
         ctx.stroke();
     }else if (rectFlag){
         var rect = event.target.getBoundingClientRect();
-        rect_ex = event.clientX - rect.left;
-        rect_ey = event.clientY - rect.top;
+        rect_ex = clientX - rect.left;
+        rect_ey = clientY - rect.top;
         ctx.drawImage(img, 0, 0);
         ctx.beginPath();
         draw("rect");
