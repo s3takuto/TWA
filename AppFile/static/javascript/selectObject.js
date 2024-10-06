@@ -48,40 +48,6 @@ window.onload = function () {
     canvas.addEventListener("touchend", OnMouseup);
 }
 function drawStart(event){
-    //MouseEvent
-    if (event instanceof MouseEvent){
-        if (selectBaseFlag){
-            lineFlag = true;
-            rectFlag = false;
-            var line = event.target.getBoundingClientRect();
-            line_sx = line_ex = event.clientX - line.left;
-            line_sy = line_ey = event.clientY - line.top;
-        }else if (selectTrackFlag){
-            rectFlag = true;
-            lineFlag = false;
-            var rect = event.target.getBoundingClientRect();
-            rect_sx = rect_ex = event.clientX - rect.left;
-            rect_sy = rect_ey = event.clientY - rect.top;
-        }
-    }else if (event instanceof TouchEvent){
-        if (selectBaseFlag){
-            lineFlag = true;
-            rectFlag = false;
-            var line = event.target.getBoundingClientRect();
-            line_sx = line_ex = event.touches[0].clientX - line.left;
-            line_sy = line_ey = event.touches[0].clientY - line.top;
-        }else if (selectTrackFlag){
-            rectFlag = true;
-            lineFlag = false;
-            var rect = event.target.getBoundingClientRect();
-            rect_sx = rect_ex = event.touches[0].clientX - rect.left;
-            rect_sy = rect_ey = event.touches[0].clientY - rect.top;
-        }
-    }
-
-    
-
-/* 
     if (selectBaseFlag){
         lineFlag = true;
         rectFlag = false;
@@ -95,7 +61,6 @@ function drawStart(event){
         rect_sx = rect_ex = event.clientX - rect.left;
         rect_sy = rect_ey = event.clientY - rect.top;
     }
-*/
 }
 function draw(str){
     if (str == "line"){
