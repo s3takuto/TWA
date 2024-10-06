@@ -37,6 +37,7 @@ window.onload = function () {
     submitButton = document.getElementById("decision");
 }
 function OnMousedown(event){
+    checkRadio();
     if (selectBaseFlag){
         lineFlag = true;
         rectFlag = false;
