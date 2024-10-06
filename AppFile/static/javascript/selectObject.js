@@ -1,4 +1,4 @@
-var canvas, ctx, img;   //キャンバス，コンテキスト，画像
+var canvas, ctx, img;
 var length, XIP, YIP;
 var submitButton;
 var baseFlag = trackFlag = false;
@@ -27,28 +27,16 @@ window.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        ctx.strokeStyle = 'rgb('+99+','+237+','+1+')';  //RGB(99,237,1) 黄緑色
+        //RGB(99,237,1) 黄緑色
+        ctx.strokeStyle = 'rgb('+99+','+237+','+1+')';
         ctx.lineWidth = 2;
     }
     length = document.getElementById("length");
     XIP = document.getElementById("XIP");
     YIP = document.getElementById("YIP");
     submitButton = document.getElementById("decision");
-/*
-    //描画開始
-    canvas.addEventListener("mousedown", drawStart(event));
-    canvas.addEventListener("touchstart", drawStart(event));
-    
-    //描画中
-    canvas.addEventListener("mousemove", OnMousemove);
-    canvas.addEventListener("touchmove", OnMousemove);
-
-    //描画終了
-    canvas.addEventListener("mouseup", OnMouseup);
-    canvas.addEventListener("touchend", OnMouseup);
-*/
 }
-function drawStart(event){
+function OnMousedown(event){
     if (selectBaseFlag){
         lineFlag = true;
         rectFlag = false;
@@ -104,7 +92,6 @@ function OnMousemove(event){
     }
 }
 function canselDisabled(){
-    alert("UP")
     if (baseFlag && trackFlag && textBoxFlag){
         submitButton.disabled = false;
     }else{
