@@ -38,18 +38,27 @@ window.onload = function () {
 }
 function OnMousedown(event){
     checkRadio();
+    var clientX, clientY;
+    if (event instanceof MouseEvent){
+        clientX = event.clientX;
+        clientY = event.clientY;
+    }else if (event instanceof TouchEvent){
+        event.preventDefault();
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+    }
     if (selectBaseFlag){
         lineFlag = true;
         rectFlag = false;
         var line = event.target.getBoundingClientRect();
-        line_sx = line_ex = event.clientX - line.left;
-        line_sy = line_ey = event.clientY - line.top;
+        line_sx = line_ex = clientX - line.left;
+        line_sy = line_ey = clientY - line.top;
     }else if (selectTrackFlag){
         rectFlag = true;
         lineFlag = false;
         var rect = event.target.getBoundingClientRect();
-        rect_sx = rect_ex = event.clientX - rect.left;
-        rect_sy = rect_ey = event.clientY - rect.top;
+        rect_sx = rect_ex = clientX - rect.left;
+        rect_sy = rect_ey = clientY - rect.top;
     }
 }
 function draw(str){
@@ -68,7 +77,16 @@ function draw(str){
     }
 }
 function OnMousemove(event){
-        if (lineFlag){
+    var clientX, clientY;
+    if (event instanceof MouseEvent){
+        clientX = event.clientX;
+        clientY = event.clientY;
+    }else if (event instanceof TouchEvent){
+        event.preventDefault();
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+    }
+    if (lineFlag){
         var line = event.target.getBoundingClientRect();
         line_ex = event.clientX - line.left;
         line_ey = event.clientY - line.top;
