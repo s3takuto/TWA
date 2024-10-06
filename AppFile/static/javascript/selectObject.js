@@ -34,10 +34,10 @@ window.onload = function () {
     XIP = document.getElementById("XIP");
     YIP = document.getElementById("YIP");
     submitButton = document.getElementById("decision");
-
+/*
     //描画開始
-    canvas.addEventListener("mousedown", drawStart);
-    canvas.addEventListener("touchstart", drawStart);
+    canvas.addEventListener("mousedown", drawStart(event));
+    canvas.addEventListener("touchstart", drawStart(event));
     
     //描画中
     canvas.addEventListener("mousemove", OnMousemove);
@@ -46,6 +46,7 @@ window.onload = function () {
     //描画終了
     canvas.addEventListener("mouseup", OnMouseup);
     canvas.addEventListener("touchend", OnMouseup);
+*/
 }
 function drawStart(event){
     if (selectBaseFlag){

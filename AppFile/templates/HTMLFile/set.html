@@ -15,14 +15,12 @@
         <input type="radio" name="mode" checked="true">Base Object<br>
         <input type="radio" name="mode">Tracked Object<br>
     </form>
-<!--
+
     <canvas id="canvas" 
-        onmousedown="OnMousedown(event)" 
+        onmousedown="drawStart(event)" 
         onmousemove="OnMousemove(event)" 
         onmouseup="OnMouseup(event)">
     </canvas>
--->
-    <canvas id="canvas"></canvas>
 
     <form action="/set/done" method="POST" enctype="multipart/form-data">
         LENGTH: <input type="number" id="length" name="length" onchange="check()">
