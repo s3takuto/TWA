@@ -10,8 +10,16 @@
 
 <div class="container mt-4">
     <h2>Select First and Final Frames</h2>
+
+    <h1>試験用動画</h1>
+    <video>
+        <source src="{{ VPath }}" type="video/mp4">
+        <source src="{{ VPath }}" type="video/webm">
+        <source src="{{ VPath }}" type="video/ogg">
+    </video>
+
     <form action="/trimming/done" enctype="multipart/form-data" 
-          method="POST" onsubmit="cancelDisabled()">
+        method="POST" onsubmit="cancelDisabled()">
         <video src="{{ VPath }}" id="sframe" width="600"></video>
         <br>
 
@@ -36,7 +44,7 @@
         <input type="button" value="10&gt;" onclick="ERshift(10)">
         <br><br>
 
-        <input type="submit" value="DEIOSION">
+        <input type="submit" value="SUBMIT">
     </form>
 
     <p><a href="{{url_for('home')}}">BUCK TO HOME</a></p>

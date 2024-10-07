@@ -39,6 +39,7 @@ function ERshift(n){
     evideo.currentTime = (efNum.value-1)/FPS;
 }
 
+//提出時にテキストボックスの不活性を解除
 function cancelDisabled(){
     sfNum.disabled = false;
     efNum.disabled = false;

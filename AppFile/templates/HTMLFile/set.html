@@ -15,16 +15,6 @@
         <input type="radio" name="mode" checked="true">Base Object<br>
         <input type="radio" name="mode">Tracked Object<br>
     </form>
-<!--
-    <canvas id="canvas" 
-        onmousedown="OnMousedown(event)" 
-        onmousemove="OnMousemove(event)" 
-        onmouseup="OnMouseup(event)"
-        touchstart="OnMousedown(event)"
-        touchmove="OnMousemove(event)"
-        touchend="OnMouseup(event)">
-    </canvas>
--->
     <canvas id="canvas"></canvas>
     
     <form action="/set/done" method="POST" enctype="multipart/form-data">
@@ -70,7 +60,7 @@
             <input type="checkbox" name="YIV" value="1">Y DIRECTION<br>
             <input type="hidden" name="YIV" value="0">
         </ul>
-        <br><input type="submit" id="decision" value="DECISION" disabled="true">
+        <br><input type="submit" id="decision" value="SUBMIT" disabled="true">
     </form>
     <p><a href="{{url_for('upload')}}">CHANGE VIDEO FILE</a></p>
     <p><a href="{{url_for('home')}}">BUCK TO HOME</a></p>
