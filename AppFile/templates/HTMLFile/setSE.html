@@ -12,11 +12,7 @@
     <h2>Select First and Final Frames</h2>
 
     <h1>試験用動画</h1>
-    <video>
-        <source src="{{ VPath }}" type="video/mp4">
-        <source src="{{ VPath }}" type="video/webm">
-        <source src="{{ VPath }}" type="video/ogg">
-    </video>
+    <video src="{{ VPath }}" playsinline></video>
 
     <form action="/trimming/done" enctype="multipart/form-data" 
         method="POST" onsubmit="cancelDisabled()">
