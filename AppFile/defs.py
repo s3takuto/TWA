@@ -65,24 +65,7 @@ def treatColor(img, color):
 
 #物体を追跡して座標[m]を取得、散布図を保存
 def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
-    if seFrame[1]-seFrame[0] < 150:
-        cutVideo = False
-        div = 1
-    elif seFrame[1]-seFrame[0] < 300:
-        cutVideo = True
-        div = 2
-    elif seFrame[1]-seFrame[0] < 450:
-        cutVideo = True
-        div = 3
-    elif seFrame[1]-seFrame[0] < 600:
-        cutVideo = True
-        div = 4
-    elif seFrame[1]-seFrame[0] < 750:
-        cutVideo = True
-        div = 5
-    else:
-        cutVideo = True
-        div = 10
+    fnum = seFrame[1] - seFrame[0]
 
     cap = cv2.VideoCapture(uploadPath)
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
@@ -101,9 +84,6 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     while True:
-        if cutVideo and count%div==0:
-            continue
-
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == seFrame[1]:
             break
         color = getObjectColor(img, bbox)
