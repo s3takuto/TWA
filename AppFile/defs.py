@@ -65,6 +65,25 @@ def treatColor(img, color):
 
 #物体を追跡して座標[m]を取得、散布図を保存
 def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
+    if seFrame[1]-seFrame[0] < 150:
+        cutVideo = False
+        div = 1
+    elif seFrame[1]-seFrame[0] < 300:
+        cutVideo = True
+        div = 2
+    elif seFrame[1]-seFrame[0] < 450:
+        cutVideo = True
+        div = 3
+    elif seFrame[1]-seFrame[0] < 600:
+        cutVideo = True
+        div = 4
+    elif seFrame[1]-seFrame[0] < 750:
+        cutVideo = True
+        div = 5
+    else:
+        cutVideo = True
+        div = 10
+
     cap = cv2.VideoCapture(uploadPath)
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     tracker = cv2.TrackerDaSiamRPN_create(params)
@@ -76,11 +95,15 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     FPS = cap.get(cv2.CAP_PROP_FPS)
 
+    count = 0
     x = []
     y = []
 
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     while True:
+        if cutVideo and count%div==0:
+            continue
+
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == seFrame[1]:
             break
         color = getObjectColor(img, bbox)
@@ -94,6 +117,8 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)
+
+        count += 1
     
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -111,7 +136,7 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     if offset['FD'][1] == 'downward':
         y = [-y[i] for i in range(len(y))]
     
-    #change m meter to meter
+    #change mm to meter
     x = [n/1000 for n in x]
     y = [n/1000 for n in y]
 
