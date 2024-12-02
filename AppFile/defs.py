@@ -135,7 +135,7 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     plt.savefig(savePath+"_Yscatter.jpg", format="jpg", dpi=300)
     plt.clf()
 
-    return t, x, y
+    return [t, x, y]
 
 #定数関数
 def constant_function(x, a):

@@ -105,7 +105,13 @@ def set_track():
     scaPath = app.config['SCATTER_FOLDER']
 
     sp = os.path.join(scaPath, ss['ID'])
-    t, x, y = defs.trackObject(ss['uPath'], params, ss['bbox'], ss['rate'], sp, ss['offset'], ss['SEFrame'])
+    txy = defs.trackObject(ss['uPath'], params, ss['bbox'], ss['rate'], sp, ss['offset'], ss['SEFrame'])
+    if txy == False:
+        em = "tracking error"
+        return retmp(app.config['HTML_ERRO'], Message=em)
+    else:
+        t, x, y = txy[0], txy[1], txy[2]
+
     os.remove(ss['uPath'])
     os.remove(os.path.join("./AppFile/static/FirstFrame", ss['ID']+"_FF.jpg"))
     if not t:
