@@ -99,8 +99,6 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)
-
-        count += 1
     
     cap.release()
     y = [HEIGHT-y[i] for i in range(len(y))]
