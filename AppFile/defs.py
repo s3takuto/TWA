@@ -71,9 +71,10 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     tracker = cv2.TrackerDaSiamRPN_create(params)
     success, img = cap.read()
-    color = getObjectColor(img, bbox)
-    Bimg = treatColor(img, color)
-    tracker.init(Bimg, bbox)
+    tracker.init(img, bbox)
+#    color = getObjectColor(img, bbox)
+#    Bimg = treatColor(img, color)
+#    tracker.init(Bimg, bbox)
 
     HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     FPS = cap.get(cv2.CAP_PROP_FPS)
@@ -86,12 +87,13 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     while True:
         if cap.get(cv2.CAP_PROP_POS_FRAMES) == seFrame[1]:
             break
-        color = getObjectColor(img, bbox)
+        #color = getObjectColor(img, bbox)
         success, img = cap.read()
         if not success:
             return False
-        Bimg = treatColor(img, color)
-        success, bbox = tracker.update(Bimg)
+        #Bimg = treatColor(img, color)
+        #success, bbox = tracker.update(Bimg)
+        success, bbox = tracker.update(img)
         if not success:
             return False
 
@@ -100,8 +102,6 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
         count += 1
     
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
     cap.release()
     y = [HEIGHT-y[i] for i in range(len(y))]
     t = [a*(1/FPS) for a in range(len(x))]
