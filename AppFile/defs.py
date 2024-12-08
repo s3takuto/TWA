@@ -65,8 +65,6 @@ def treatColor(img, color):
 
 #物体を追跡して座標[m]を取得、散布図を保存
 def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
-    fnum = seFrame[1] - seFrame[0]
-
     cap = cv2.VideoCapture(uploadPath)
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     tracker = cv2.TrackerDaSiamRPN_create(params)
@@ -78,8 +76,6 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
     HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     FPS = cap.get(cv2.CAP_PROP_FPS)
-
-    count = 0
     x = []
     y = []
 
@@ -90,12 +86,12 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
         #color = getObjectColor(img, bbox)
         success, img = cap.read()
         if not success:
-            return False
+            return False, None
         #Bimg = treatColor(img, color)
         #success, bbox = tracker.update(Bimg)
         success, bbox = tracker.update(img)
         if not success:
-            return False
+            return False, None
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)
@@ -118,6 +114,12 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     x = [n/1000 for n in x]
     y = [n/1000 for n in y]
 
+    data = {
+        'x' : x, 
+        'y' : y, 
+        't' : t,
+    }
+
     plt.clf()
     plt.title("x-t Scatter")
     plt.xlabel("time [s]")
@@ -133,7 +135,7 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     plt.savefig(savePath+"_Yscatter.jpg", format="jpg", dpi=300)
     plt.clf()
 
-    return [t, x, y]
+    return True, data
 
 #定数関数
 def constant_function(x, a):
