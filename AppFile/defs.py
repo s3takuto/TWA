@@ -69,10 +69,11 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     tracker = cv2.TrackerDaSiamRPN_create(params)
     success, img = cap.read()
+    #color = getObjectColor(img, bbox)
+    #Bimg = treatColor(img, color)
+    #tracker.init(Bimg, bbox)
+    #二値化の処理を削除
     tracker.init(img, bbox)
-#    color = getObjectColor(img, bbox)
-#    Bimg = treatColor(img, color)
-#    tracker.init(Bimg, bbox)
 
     HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     FPS = cap.get(cv2.CAP_PROP_FPS)
@@ -86,12 +87,12 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
         #color = getObjectColor(img, bbox)
         success, img = cap.read()
         if not success:
-            return False, [], [], []
+            return False
         #Bimg = treatColor(img, color)
         #success, bbox = tracker.update(Bimg)
         success, bbox = tracker.update(img)
         if not success:
-            return False, [], [], []
+            return False
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)
