@@ -87,12 +87,12 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
         #color = getObjectColor(img, bbox)
         success, img = cap.read()
         if not success:
-            return False
+            t = x = y = []
         #Bimg = treatColor(img, color)
         #success, bbox = tracker.update(Bimg)
         success, bbox = tracker.update(img)
         if not success:
-            return False
+            t = x = y = []
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)
@@ -130,7 +130,7 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     plt.savefig(savePath+"_Yscatter.jpg", format="jpg", dpi=300)
     plt.clf()
 
-    return True, t, x, y
+    return t, x, y
 
 #定数関数
 def constant_function(x, a):
