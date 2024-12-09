@@ -87,12 +87,12 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
         #color = getObjectColor(img, bbox)
         success, img = cap.read()
         if not success:
-            t = x = y = []
+            return [], [], []
         #Bimg = treatColor(img, color)
         #success, bbox = tracker.update(Bimg)
         success, bbox = tracker.update(img)
         if not success:
-            t = x = y = []
+            return [], [], []
 
         x.append(bbox[0]+bbox[2]/2)
         y.append(bbox[1]+bbox[3]/2)

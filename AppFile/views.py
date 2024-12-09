@@ -50,7 +50,7 @@ def trimming_done():
         return redirect("/trimming/done")
     return redirect("/set")
 
-#初期・最終フレームの保存
+#初期フレームの画像を保存（追跡物体の選択用）
 @app.get('/set')
 def select():
     FFPath = defs.saveFF(ss['uPath'], ss['ID'], ss['SEFrame'])
@@ -110,7 +110,7 @@ def set_track():
     os.remove(ss['uPath'])
     os.remove(os.path.join("./AppFile/static/FirstFrame", ss['ID']+"_FF.jpg"))
 
-    if not t:
+    if len(t) == 0:
         em = "This video has no image."
         return retmp(app.config['HTML_ERRO'], em)
 
@@ -138,4 +138,5 @@ def track_result():
         ym = request.form['y_appr_method']
     
     Formula, Path, CSV = defs.makeGraph(xm, ym, ss['t'], ss['x'], ss['y'], ss['ID'], ss['offset'])
+    #return str(ss['x'])
     return retmp(app.config['HTML_RE'], Formula=Formula, Path=Path, CSV=CSV)
