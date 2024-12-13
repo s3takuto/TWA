@@ -42,8 +42,8 @@ def setUnit(m, u):
         "centi_meter" : 10, 
         "metre" : 1000, 
     }
-    return float(m) * unit_dect[u]
-
+    return int(m) * unit_dect[u]
+"""
 #追跡物体の平均的なBGR値を取得
 def getObjectColor(img, bbox):
     x1, y1, x2, y2 = bbox[0], bbox[1], bbox[2], bbox[3]
@@ -62,6 +62,7 @@ def treatColor(img, color):
     img = cv2.medianBlur(img, 7)
     img = np.stack([img, img, img], axis=2)
     return img
+"""
 
 #物体を追跡して座標[m]を取得、散布図を保存
 def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
@@ -94,65 +95,76 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
         if not success:
             return [], [], []
 
-        x.append(bbox[0]+bbox[2]/2)
-        y.append(bbox[1]+bbox[3]/2)
+        x.append(int(bbox[0]+bbox[2]/2))
+        y.append(int(bbox[1]+bbox[3]/2))
     
     cap.release()
+
+    #y座標を上基準からした基準に変換
     y = [HEIGHT-y[i] for i in range(len(y))]
+
+    #時刻のリストを作成
     t = [a*(1/FPS) for a in range(len(x))]
 
-    xdef = x[0]*rate - offset['IP'][0]
-    ydef = y[0]*rate - offset['IP'][1]
-    x = [xi*rate - xdef for xi in x]
-    y = [yi*rate - ydef for yi in y]
-
+    #進行方向に応じて符号を変換
     if offset['FD'][0] == 'left':
         x = [-x[i] for i in range(len(x))]
     if offset['FD'][1] == 'downward':
         y = [-y[i] for i in range(len(y))]
     
-    #change mm to meter
-    x = [n/1000 for n in x]
-    y = [n/1000 for n in y]
+    #pix/mmを計算
+    ppmm = 1.0/rate
 
+    #設定した初期位置を原点とした座標[pix]に変換
+    x = [int(xi - x[0] + offset['IP'][0]*ppmm) for xi in x]
+    y = [int(yi - y[0] + offset['IP'][1]*ppmm) for yi in y]
+
+    #mm/pix -> m/pix
+    rate /= 1000.0
+
+    #初期位置[m]を設定
+    x_m = [xi * rate for xi in x]
+    y_m = [yi * rate for yi in y]
+    #xdef = x[0]*rate - offset['IP'][0]
+    #ydef = y[0]*rate - offset['IP'][1]
+    #x_m = [xi*rate - xdef for xi in x]
+    #y_m = [yi*rate - ydef for yi in y]
+
+    #散布図を作成
     plt.clf()
     plt.title("x-t Scatter")
     plt.xlabel("time [s]")
     plt.ylabel("X Position [m]")
-    plt.scatter(t, x, s=5)
+    plt.scatter(t, x_m, s=5)
     plt.savefig(savePath+"_Xscatter.jpg", format="jpg", dpi=300)
 
     plt.clf()
     plt.title("y-t Scatter")
     plt.xlabel("time [s]")
     plt.ylabel("Y Position [m]")
-    plt.scatter(t, y, s=5)
+    plt.scatter(t, y_m, s=5)
     plt.savefig(savePath+"_Yscatter.jpg", format="jpg", dpi=300)
     plt.clf()
 
     return t, x, y
 
+#近似用の関数群
 #定数関数
 def constant_function(x, a):
     return a + 0*x
-
 #一次関数
 def linear_function(x, a, b):
     return a + b*x
-
 #二次関数
 def quadratic_function(x, a, b, c):
     return a + b*x + c*(x**2)
-
-#Cosine関数
+#Cos関数
 def cosine_function(x, a, b, c, d):
     return a*np.cos(b*x - c) + d
-
-#Sine関数
+#Sin関数
 def sine_function(x, a, b, c, d):
     return a*np.sin(b*x - c) + d
-
-#空気抵抗ありの関数
+#空気抵抗ありの関数（未完成）
 def exp_and_linear_function(x, a):
     return a*x
     #return a*sym.exp(b*x) + c*x + d
@@ -197,7 +209,7 @@ def fitting(method, time, x, t):
         #return C[0]*sym.exp(C[1]*t) + C[2]*t + C[3]
 
 #最適な回帰手法を選択
-def serchOptimalForm(t, x, rate):
+def serchOptimalForm(x):
     methods = {
         "CF" : constant_function, 
         "LF" : linear_function, 
@@ -205,10 +217,16 @@ def serchOptimalForm(t, x, rate):
         "CosF" : cosine_function, 
         "SinF" : sine_function, 
     }
-    t = np.array(t)
-    x = (np.array(x)*1000/rate).astype(int)
+    def norm(x:np.ndarray)->np.ndarray:
+        max = x.max()
+        min = x.min()
+        return (x-min) / (max-min)
+    
+    x = np.array(x)
+    t = np.array([i for i in range(len(x))])
+    x, t = norm(x), norm(t)
 
-    def MSE(x1, x2):
+    def MSE(x1:np.ndarray, x2:np.ndarray)->float:
         return ((x1 - x2)**2).mean()
     
     for method in methods:
@@ -229,7 +247,7 @@ def serchOptimalForm(t, x, rate):
             if abs(C[2]) > np.pi/4:
                 method = "CosF"
 
-        if MSE(x, x2) < 25:
+        if MSE(x, x2) < 0.1:
             return method
 
     return "CF"
@@ -303,7 +321,11 @@ def makeCSV(t, x, y, origname):
         return "./static/csv/"+origname+".csv"
 
 #各種グラフを作成
-def makeGraph(xm, ym, time, x, y, origname, offset):
+def makeGraph(xm, ym, time, x, y, origname, offset, rate):
+    #pix -> m
+    x = [xi*rate for xi in x]
+    y = [yi*rate for yi in y]
+
     SavePath = "./AppFile/static/graphs/"
     t = sym.symbols('t')
     

@@ -1,11 +1,14 @@
-DEBUG = False
+DEBUG = True
 THREADED = True
-SECRET_KEY = 'ZEaNDKi4PYC3hQw40X0WthRtYaAyfbVS'
 UPLOAD_FOLDER = './AppFile/static/UploadFiles'
 SCATTER_FOLDER = './AppFile/static/scatters'
 HTML_INDEX = 9
 ID = 0
 
+#session関連
+SECRET_KEY = 'ZEaNDKi4PYC3hQw40X0WthRtYaAyfbVS'
+SESSION_TYPE = 'filesystem'
+SESSION_PERMANENT = False
 
 #HTMLファイルのPATH
 HTML_HOME = "HTMLFile/home.html"

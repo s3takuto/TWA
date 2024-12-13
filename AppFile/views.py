@@ -1,5 +1,6 @@
 import os
 from flask import render_template as retmp, request, session as ss, jsonify, redirect
+from flask_session import Session
 from AppFile import app, params, defs
 
 #ホーム画面の表示
@@ -131,12 +132,11 @@ def changeMethod():
 def track_result():
     if request.method == "GET":
         #最適な近似式を選択する関数を作成
-        xm = defs.serchOptimalForm(ss['t'], ss['x'], ss['rate'])
-        ym = defs.serchOptimalForm(ss['t'], ss['y'], ss['rate'])
+        xm = defs.serchOptimalForm(ss['x'])
+        ym = defs.serchOptimalForm(ss['y'])
     elif request.method == "POST":
         xm = request.form['x_appr_method']
         ym = request.form['y_appr_method']
-    
-    Formula, Path, CSV = defs.makeGraph(xm, ym, ss['t'], ss['x'], ss['y'], ss['ID'], ss['offset'])
-    #return str(ss['x'])
+
+    Formula, Path, CSV = defs.makeGraph(xm, ym, ss['t'], ss['x'], ss['y'], ss['ID'], ss['offset'], ss['rate']/1000.0)
     return retmp(app.config['HTML_RE'], Formula=Formula, Path=Path, CSV=CSV)

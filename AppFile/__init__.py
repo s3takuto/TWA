@@ -1,8 +1,10 @@
 from flask import Flask
+from flask_session import Session
 import cv2
 
 app = Flask(__name__)
 app.config.from_object('AppFile.config')
+Session(app)
 
 params = cv2.TrackerDaSiamRPN_Params()
 params.model = "./AppFile/model/DasiamRPN/dasiamrpn_model.onnx"
