@@ -8,6 +8,10 @@ var lineFlag = false;
 var line_sx = line_sy = line_ex = line_ey = -1;
 var rectFlag = false;
 var rect_sx = rect_sy = rect_ex = rect_ey = -1;
+var Magnification;
+var newWidth, newHeight;
+
+
 
 window.onload = function () {
     canvas = document.getElementById('canvas');
@@ -15,9 +19,24 @@ window.onload = function () {
     img = new Image();
     img.src = imagePath;
     img.onload = function(){
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
+        //アスペクト比を計算
+        const aspectRatio = parseFloat(img.height) / img.width;
+        
+        //横はスクリーンの0.9倍
+        newWidth = parseInt(window.innerWidth * 0.9);
+        newHeight = parseInt(newWidth * aspectRatio);
+
+        //測定した座標を元座標へ拡大する倍率
+        Mag = parseFloat(img.width) / newWidth;
+        
+        //新しい寸法を保存
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+        //canvas.width = img.width;
+        //canvas.height = img.height;
+        //ctx.drawImage(img, 0, 0);
 
         //RGB(99,237,1) 黄緑色
         ctx.strokeStyle = 'rgb('+99+','+237+','+1+')';
@@ -103,8 +122,10 @@ function OnMousemove(event){
         var line = event.target.getBoundingClientRect();
         line_ex = clientX - line.left;
         line_ey = clientY - line.top;
-        
-        ctx.drawImage(img, 0, 0);
+        //---------------------------------------------
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        //ctx.drawImage(img, 0, 0);
+        //---------------------------------------------
         ctx.beginPath();
         draw("line");
         if (trackFlag){
@@ -116,7 +137,10 @@ function OnMousemove(event){
         rect_ex = clientX - rect.left;
         rect_ey = clientY - rect.top;
 
-        ctx.drawImage(img, 0, 0);
+        //---------------------------------------------
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        //ctx.drawImage(img, 0, 0);
+        //---------------------------------------------
         ctx.beginPath();
         draw("rect");
         if (baseFlag){
@@ -137,10 +161,10 @@ function OnMouseup(event){
         baseFlag = true;
         lineFlag = false;
         var line_params = {
-            line_sx : line_sx, 
-            line_sy : line_sy, 
-            line_ex : line_ex, 
-            line_ey : line_ey
+            line_sx : parseInt(line_sx*Mag), 
+            line_sy : parseInt(line_sy*Mag), 
+            line_ex : parseInt(line_ex*Mag), 
+            line_ey : parseInt(line_ey*Mag)
         };
         fetch("/setPoint", {
             method : "POST", 
@@ -174,10 +198,10 @@ function OnMouseup(event){
             height = rect_sy - rect_ey;
         }
         var rect_params = {
-            left :   left,  
-            top :    top, 
-            width :  width, 
-            height : height
+            left :   parseInt(left*Mag),  
+            top :    parseInt(top*Mag), 
+            width :  parseInt(width*Mag), 
+            height : parseInt(height*Mag)
         };
         fetch("/setPoint", {
             method : "POST", 

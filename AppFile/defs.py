@@ -254,6 +254,7 @@ def serchOptimalForm(x):
 
 #グラフの保存
 def saveGraph(f, t, time, path, title, label):
+    plt.rcParams["font.size"] = 15
     plt.title(title)
     arr = [f.subs(t, time[i]) for i in range(len(time))]
     plt.plot(time, arr)
