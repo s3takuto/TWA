@@ -1,3 +1,5 @@
+/* 現在はresult.htmlに統合 */
+
 const PathArr = [xt, vxt, axt, yt, vyt, ayt];
 const idArr = ['xt', 'vxt', 'axt', 'yt', 'vyt', 'ayt']
 

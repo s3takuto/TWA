@@ -10,8 +10,48 @@
     const vyt = "{{Path.vyt}}";
     const ayt = "{{Path.ayt}}";
 </script>
+<!-- scriptタグに直接記述
 <script type="text/javascript"
     src="{{ url_for('static', filename='javascript/showGraphs.js') }}">
+</script>
+-->
+<script>
+    const PathArr = [xt, vxt, axt, yt, vyt, ayt];
+    const idArr = ['xt', 'vxt', 'axt', 'yt', 'vyt', 'ayt']
+    var newWidth, newHeight;
+    var aspectRatio;
+    
+    window.onload = function(){
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        // グラフ
+        const canvases = document.querySelectorAll('canvas');
+        canvases.forEach((canvas, index) => {
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = PathArr[index];
+            img.onload = function(){
+                aspectRatio = parseFloat(img.height) / img.width;
+
+                newWidth = parseInt(windowWidth * 0.3);
+                newHeight = parseInt(newWidth*aspectRatio);
+
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            }
+
+        });
+        
+        // 動画
+        const video = document.getElementById("video");
+        aspectRatio = parseFloat(video.videoHeight) / video.videoWidth;
+        newWidth = window.innerWidth * 0.9;
+        newHeight = parseInt(newWidth*aspectRatio);
+        video.width = newWidth;
+        video.height = newHeight;
+    }
 </script>
 <div class="container mt-4">
     <h2>RESULTS</h2>
@@ -20,11 +60,7 @@
             {{Formula.xt}}<br>
             {{Formula.vxt}}<br>
             {{Formula.axt}}<br>
-            <!--
-            <img src="{{Path.xt}}" alt="{{Path.xt}}" width="400">
-            <img src="{{Path.vxt}}" alt="{{Path.vxt}}" width="400">
-            <img src="{{Path.axt}}" alt="{{Path.axt}}" width="400">
-            -->
+
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
@@ -34,14 +70,18 @@
             {{Formula.yt}}<br>
             {{Formula.vyt}}<br>
             {{Formula.ayt}}<br>
-            <!--
-            <img src="{{Path.yt}}" alt="{{Path.yt}}" width="400">  
-            <img src="{{Path.vyt}}" alt="{{Path.vyt}}" width="400">    
-            <img src="{{Path.ayt}}" alt="{{Path.ayt}}" width="400">
-            -->
+
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
+        </p>
+
+        <!--追跡中の動画の表示-->
+        <p>
+            追跡中の動画<br>
+            <video src="{{VPath}}" id="video" autoplay muted controls>
+                動画がうまく作成されませんでした．
+            </video>
         </p>
 
         <p><a href="{{CSV}}" download="PositionData.csv">Download CSV File</a></p>
