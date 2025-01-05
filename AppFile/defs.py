@@ -76,10 +76,15 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     #二値化の処理を削除
     tracker.init(img, bbox)
 
-    HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    WIDTH = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    HEIGHT = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     FPS = cap.get(cv2.CAP_PROP_FPS)
     x = []
     y = []
+    
+    frame = cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 0, 255), thickness=2)
+    fourcc = cv2.VideoWriter_fourcc('m','p','4', 'v')
+    video  = cv2.VideoWriter('./AppFile/static/outfile/video.mp4', fourcc, float(FPS), (WIDTH, HEIGHT))
 
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     while True:
@@ -97,8 +102,13 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
 
         x.append(int(bbox[0]+bbox[2]/2))
         y.append(int(bbox[1]+bbox[3]/2))
+
+        #追跡動画の作成
+        frame = cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 0, 255), thickness=2)
+        video.write(frame)
     
     cap.release()
+    video.release()
 
     #y座標を上基準からした基準に変換
     y = [HEIGHT-y[i] for i in range(len(y))]

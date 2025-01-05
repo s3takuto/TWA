@@ -2,6 +2,17 @@
 
 {% block content %}
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script>
+    const xt = "{{Path.xt}}";
+    const vxt = "{{Path.vxt}}";
+    const axt = "{{Path.axt}}";
+    const yt = "{{Path.yt}}";
+    const vyt = "{{Path.vyt}}";
+    const ayt = "{{Path.ayt}}";
+</script>
+<script type="text/javascript"
+    src="{{ url_for('static', filename='javascript/showGraphs.js') }}">
+</script>
 <div class="container mt-4">
     <h2>RESULTS</h2>
         <p>
@@ -9,18 +20,28 @@
             {{Formula.xt}}<br>
             {{Formula.vxt}}<br>
             {{Formula.axt}}<br>
+            <!--
             <img src="{{Path.xt}}" alt="{{Path.xt}}" width="400">
             <img src="{{Path.vxt}}" alt="{{Path.vxt}}" width="400">
             <img src="{{Path.axt}}" alt="{{Path.axt}}" width="400">
+            -->
+            <canvas id="canvas"></canvas>
+            <canvas id="canvas"></canvas>
+            <canvas id="canvas"></canvas>
         </p>
         <p> 
             {{Formula.MSEY}}<br>
             {{Formula.yt}}<br>
             {{Formula.vyt}}<br>
             {{Formula.ayt}}<br>
+            <!--
             <img src="{{Path.yt}}" alt="{{Path.yt}}" width="400">  
             <img src="{{Path.vyt}}" alt="{{Path.vyt}}" width="400">    
             <img src="{{Path.ayt}}" alt="{{Path.ayt}}" width="400">
+            -->
+            <canvas id="canvas"></canvas>
+            <canvas id="canvas"></canvas>
+            <canvas id="canvas"></canvas>
         </p>
 
         <p><a href="{{CSV}}" download="PositionData.csv">Download CSV File</a></p>

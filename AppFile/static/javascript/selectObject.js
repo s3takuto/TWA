@@ -1,3 +1,5 @@
+//旧バージョン
+
 var canvas, ctx, img;
 var length, XIP, YIP;
 var submitButton;

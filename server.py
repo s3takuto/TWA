@@ -4,7 +4,7 @@ from AppFile import app
 
 if __name__ == '__main__':
     #delete tmp files
-    kinds = ["UploadFiles", "FirstFrame", "scatters", "graphs", "csv"]
+    kinds = ["UploadFiles", "FirstFrame", "scatters", "graphs", "csv", "outfile"]
     sss = (glob.glob(".\\flask-session\*"))
     for ss in sss:
         os.remove(ss)
