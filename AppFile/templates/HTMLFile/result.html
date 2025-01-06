@@ -17,13 +17,11 @@
 -->
 <script>
     const PathArr = [xt, vxt, axt, yt, vyt, ayt];
-    const idArr = ['xt', 'vxt', 'axt', 'yt', 'vyt', 'ayt']
     var newWidth, newHeight;
     var aspectRatio;
     
     window.onload = function(){
         const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
 
         // グラフ
         const canvases = document.querySelectorAll('canvas');
@@ -33,8 +31,12 @@
             img.src = PathArr[index];
             img.onload = function(){
                 aspectRatio = parseFloat(img.height) / img.width;
-
-                newWidth = parseInt(windowWidth * 0.3);
+                
+                if (windowWidth <= 768){
+                    newWidth = parseInt(windowWidth * 0.9);
+                }else{
+                    newWidth = parseInt(windowWidth * 0.3);
+                }
                 newHeight = parseInt(newWidth*aspectRatio);
 
                 canvas.width = newWidth;
@@ -47,7 +49,7 @@
         // 動画
         const video = document.getElementById("video");
         aspectRatio = parseFloat(video.videoHeight) / video.videoWidth;
-        newWidth = window.innerWidth * 0.9;
+        newWidth = windowWidth * 0.9;
         newHeight = parseInt(newWidth*aspectRatio);
         video.width = newWidth;
         video.height = newHeight;

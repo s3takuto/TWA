@@ -5,11 +5,39 @@
 <script type="text/javascript" 
     src="{{ url_for('static', filename='javascript/showForms.js') }}">
 </script>
+<script>
+    const XSP = "{{Path.XSP}}";
+    const YSP = "{{Path.YSP}}";
+    const PathArr = [XSP, YSP];
+    var newWidth, newHeight;
+    var aspectRatio;
+    window.onload = function(){
+
+        const canvases = document.querySelectorAll('canvas');
+        canvases.forEach((canvas, index) => {
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = PathArr[index];
+            img.onload = function(){
+                aspectRatio = parseFloat(img.height) / img.width;
+
+                newWidth = parseInt(window.innerWidth * 0.4);
+                newHeight = parseInt(newWidth*aspectRatio);
+
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            }
+        });
+    }
+
+</script>
 
 <div class="container mt-4">
     <h2>Select approximation method of positions</h2>
-    <img src="{{Path.XSP}}" alt="{{Path.XSP}}" width="600">
-    <img src="{{Path.YSP}}" alt="{{Path.YSP}}" width="600"><br>
+    
+    <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas><br>
     <form action="/result" method="POST" enctype="multipart/form-data">
         <br>
         Select approximation method of positions and click "DECISION" button.
