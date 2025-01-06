@@ -20,8 +20,12 @@
             img.src = PathArr[index];
             img.onload = function(){
                 aspectRatio = parseFloat(img.height) / img.width;
-
-                newWidth = parseInt(window.innerWidth * 0.4);
+                
+                if (window.innerWidth <= 768){
+                    newWidth = parseInt(window.innerWidth*0.95);
+                }else{
+                    newWidth = parseInt(window.innerWidth*0.4);
+                }
                 newHeight = parseInt(newWidth*aspectRatio);
 
                 canvas.width = newWidth;
@@ -35,7 +39,7 @@
 
 <div class="container mt-4">
     <h2>Select approximation method of positions</h2>
-    
+
     <canvas id="canvas"></canvas>
     <canvas id="canvas"></canvas><br>
     <form action="/result" method="POST" enctype="multipart/form-data">

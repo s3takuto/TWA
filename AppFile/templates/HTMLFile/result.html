@@ -34,7 +34,7 @@
                 
                 if (windowWidth <= 768){
                     //スマホ用
-                    newWidth = parseInt(windowWidth * 0.9);
+                    newWidth = parseInt(windowWidth * 0.95);
                 }else{
                     //PC・タブレット用
                     newWidth = parseInt(windowWidth * 0.3);
@@ -51,7 +51,7 @@
         // 動画
         const video = document.getElementById("video");
         aspectRatio = parseFloat(video.videoHeight) / video.videoWidth;
-        newWidth = windowWidth * 0.9;
+        newWidth = windowWidth * 0.95;
         newHeight = parseInt(newWidth*aspectRatio);
         video.width = newWidth;
         video.height = newHeight;
