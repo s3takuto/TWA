@@ -33,8 +33,10 @@
                 aspectRatio = parseFloat(img.height) / img.width;
                 
                 if (windowWidth <= 768){
+                    //スマホ用
                     newWidth = parseInt(windowWidth * 0.9);
                 }else{
+                    //PC・タブレット用
                     newWidth = parseInt(windowWidth * 0.3);
                 }
                 newHeight = parseInt(newWidth*aspectRatio);
