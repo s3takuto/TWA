@@ -12,6 +12,7 @@ RUN mkdir -p /app/AppFile/static/FirstFrame && chmod -R 766 /app/AppFile/static/
 RUN mkdir -p /app/AppFile/static/scatters && chmod -R 766 /app/AppFile/static/scatters
 RUN mkdir -p /app/AppFile/static/graphs && chmod -R 766 /app/AppFile/static/graphs
 RUN mkdir -p /app/AppFile/static/csv && chmod -R 766 /app/AppFile/static/csv
+RUN mkdir -p /app/AppFile/static/outfile && chmod -R 766 /app/AppFile/static/outfile
 RUN mkdir -p /app/flask_session && chmod -R 766 /app/flask_session
 COPY . .
 
