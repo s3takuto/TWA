@@ -139,5 +139,5 @@ def track_result():
         ym = request.form['y_appr_method']
 
     Formula, Path, CSV = defs.makeGraph(xm, ym, ss['t'], ss['x'], ss['y'], ss['ID'], ss['offset'], ss['rate']/1000.0)
-    VP = './static/scatters/'+ss['ID']+'_video.mp4'
+    VP = ss['ID']+'_video.mp4'
     return retmp(app.config['HTML_RE'], Formula=Formula, Path=Path, VPath=VP, CSV=CSV)
