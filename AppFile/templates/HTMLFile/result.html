@@ -88,7 +88,10 @@
             </video>
         </p>
 
-        <p><a href="{{CSV}}" download="PositionData.csv">Download CSV File</a></p>
+        <p>
+            <!--<a href="{{CSV}}" download="PositionData.csv">Download CSV File</a>-->
+            <a href="/static/csv/{{CSV}}" download="PositionData.csv">Download CSV File</a>
+        </p>
         <br>
         <p><a href="{{url_for('changeMethod')}}">CHANGE METHODS</a></p>
         <p><a href="{{url_for('home')}}">BACK TO HOME</a></p>
