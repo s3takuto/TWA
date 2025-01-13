@@ -104,8 +104,8 @@ def set_done():
 def set_track():
     global params
     scaPath = app.config['SCATTER_FOLDER']
-
     sp = os.path.join(scaPath, ss['ID'])
+
     t, x, y = defs.trackObject(ss['uPath'], params, ss['bbox'], ss['rate'], sp, ss['offset'], ss['SEFrame'])
 
     os.remove(ss['uPath'])

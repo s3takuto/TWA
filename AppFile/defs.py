@@ -85,8 +85,11 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     frame = cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 0, 255), thickness=2)
     #fourcc = cv2.VideoWriter_fourcc('m','p','4', 'v')
     #fourcc = cv2.VideoWriter_fourcc(*"X264")
+    ID = savePath[26:30]
+    VP = "./AppFile/static/graphs/"+ID+"_video.mp4"
     fourcc = cv2.VideoWriter_fourcc(*'avc1')
-    video  = cv2.VideoWriter(savePath+'_video.mp4', fourcc, float(FPS), (WIDTH, HEIGHT))
+    video = cv2.VideoWriter(VP, fourcc, float(FPS), (WIDTH, HEIGHT))
+    #video  = cv2.VideoWriter(savePath+'_video.mp4', fourcc, float(FPS), (WIDTH, HEIGHT))
 
     cap.set(cv2.CAP_PROP_POS_FRAMES, seFrame[0])
     while True:
