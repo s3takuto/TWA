@@ -325,7 +325,8 @@ def mathForm2str(s, u, fx):
 
 #CSVファイルを作成
 def makeCSV(t, x, y, origname):
-    with open('.\AppFile\static\csv\\'+origname+'.csv', 'w', newline="") as f:
+    savePath = "./AppFile/static/graphs/"+origname+".csv"
+    with open(savePath, 'w', newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["time [s]", "x [m]", "y [m]"])
         rows = [[t[i], x[i], y[i]] for i in range(len(t))]
