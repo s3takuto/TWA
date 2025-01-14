@@ -87,7 +87,8 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     #fourcc = cv2.VideoWriter_fourcc(*"X264")
     ID = savePath[26:30]
     VP = "./AppFile/static/graphs/"+ID+"_video.mp4"
-    fourcc = cv2.VideoWriter_fourcc(*'avc1')
+    #fourcc = cv2.VideoWriter_fourcc(*'avc1')
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video = cv2.VideoWriter(VP, fourcc, float(FPS), (WIDTH, HEIGHT))
     #video  = cv2.VideoWriter(savePath+'_video.mp4', fourcc, float(FPS), (WIDTH, HEIGHT))
 
