@@ -10,11 +10,6 @@
     const vyt = "{{Path.vyt}}";
     const ayt = "{{Path.ayt}}";
 </script>
-<!-- scriptタグに直接記述
-<script type="text/javascript"
-    src="{{ url_for('static', filename='javascript/showGraphs.js') }}">
-</script>
--->
 <script>
     const PathArr = [xt, vxt, axt, yt, vyt, ayt];
     var newWidth, newHeight;
@@ -45,7 +40,6 @@
                 canvas.height = newHeight;
                 ctx.drawImage(img, 0, 0, newWidth, newHeight);
             }
-
         });
         
         // 動画
@@ -59,6 +53,7 @@
 </script>
 <div class="container mt-4">
     <h2>RESULTS</h2>
+        <!--x方向の結果表示-->
         <p>
             {{Formula.MSEX}}<br>
             {{Formula.xt}}<br>
@@ -69,6 +64,7 @@
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
         </p>
+        <!--y方向の結果表示-->
         <p> 
             {{Formula.MSEY}}<br>
             {{Formula.yt}}<br>
@@ -79,18 +75,10 @@
             <canvas id="canvas"></canvas>
             <canvas id="canvas"></canvas>
         </p>
-
-        <!--追跡中の動画の表示-->
+        <!--CSV・MP4のダウンロード-->
         <p>
-            追跡中の動画<br>
-            <video src="/static/graphs/{{VPath}}" id="video" autoplay muted controls>
-                動画がうまく作成されませんでした．
-            </video>
-        </p>
-
-        <p>
-            <a href="/static/graphs/{{CSV}}" download="PositionData.csv">Download CSV File</a>
-            <a href="/static/graphs/{{VPath}}" download="TrackingVideo.mp4">Download Video File</a>
+            位置データ（CSV）: <a href="/static/graphs/{{CSV}}" download="PositionData.csv">Download</a><br>
+            追跡中の動画（MP4）: <a href="/static/graphs/{{VPath}}" download="TrackingVideo.mp4">Download</a>
         </p>
         <br>
         <p><a href="{{url_for('changeMethod')}}">CHANGE METHODS</a></p>

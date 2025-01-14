@@ -83,12 +83,10 @@ def trackObject(uploadPath, params, bbox, rate, savePath, offset, seFrame):
     y = []
     
     frame = cv2.rectangle(img, (bbox[0], bbox[1]), (bbox[0]+bbox[2], bbox[1]+bbox[3]), (0, 0, 255), thickness=2)
-    #fourcc = cv2.VideoWriter_fourcc('m','p','4', 'v')
-    #fourcc = cv2.VideoWriter_fourcc(*"X264")
     ID = savePath[26:30]
     VP = "./AppFile/static/graphs/"+ID+"_video.mp4"
-    #fourcc = cv2.VideoWriter_fourcc(*'avc1')
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    #fourcc = cv2.VideoWriter_fourcc(*'avc1')    #動画が表示される(Azureだと動画が作成されない?)
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')    #動画が作成される(表示はできない．理由は知らない)
     video = cv2.VideoWriter(VP, fourcc, float(FPS), (WIDTH, HEIGHT))
     #video  = cv2.VideoWriter(savePath+'_video.mp4', fourcc, float(FPS), (WIDTH, HEIGHT))
 
