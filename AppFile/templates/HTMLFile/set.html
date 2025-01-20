@@ -12,20 +12,20 @@
     <h2>Input Object's Data</h2>
 
     <form name="selectMode">
-        <input type="radio" name="mode" checked="true">Base Object<br>
-        <input type="radio" name="mode">Tracked Object<br>
+        <input type="radio" name="mode" checked="true">基準線の描画(直線)<br>
+        <input type="radio" name="mode">追跡対象の選択(矩形)<br>
     </form>
     <canvas id="canvas"></canvas>
     
     <form action="/set/done" method="POST" enctype="multipart/form-data">
-        LENGTH: <input type="number" id="length" name="length" onchange="check()">
+        基準線の長さ: <input type="number" id="length" name="length" onchange="check()">
         <select name="unit">
             <option value="milli_meter">mm</option>  
             <option value="centi_meter">cm</option>          
             <option value="metre">m</option>
         </select>
         <br><br>
-        FORWARD DIRECTION: <br>
+        進行方向: <br>
         <ul>
             X: <select name="Xforward" style="width: 100px;">
                 <option value="right" checked="true">RIGHT</option>
@@ -36,7 +36,7 @@
                 <option value="downward">DOWNWARD</option>
             </select><br><br>
         </ul>
-        INITIAL POSITION: <br>
+        初期位置: <br>
         <ul>
             X: 
             <input type="number" id="XIP" name="XIP" value="0" onchange="check()">
@@ -53,11 +53,11 @@
                 <option value="metre">m</option>
             </select><br><br>
         </ul>
-        SET INITIAL VELOCITY TO '0' [m/s]: <br>
+        初期速度を0 [m/s]に設定しますか？（※測定データと近似曲線がズレる場合があります） <br>
         <ul>
-            <input type="checkbox" name="XIV" value="1">X DIRECTION<br>
+            <input type="checkbox" name="XIV" value="1">X（水平）方向<br>
             <input type="hidden" name="XIV" value="0">
-            <input type="checkbox" name="YIV" value="1">Y DIRECTION<br>
+            <input type="checkbox" name="YIV" value="1">Y（垂直）方向<br>
             <input type="hidden" name="YIV" value="0">
         </ul>
         <br><input type="submit" id="decision" value="SUBMIT" disabled="true">

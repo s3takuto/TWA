@@ -184,6 +184,57 @@ def exp_and_linear_function(x, a):
     #return a*sym.exp(b*x) + c*x + d
 
 #曲線回帰
+
+def fitting(method, time, x, t, x0, v0):
+    func_dict = {
+        "CF" : constant_function, 
+        "LF" : linear_function, 
+        "QF" : quadratic_function, 
+        "CosF" : cosine_function, 
+        "SinF" : sine_function, 
+        "ELF": exp_and_linear_function, 
+    }
+
+    if method=="CosF" or method=="SinF":
+        nx = np.array(x)
+        amp = 2*np.std(nx)
+        fft_freq = np.fft.fftfreq(nx.size, d=time[1]-time[0])
+        freqAmp = abs(np.fft.fft(nx)/int(nx.size/2))
+        freq = abs(fft_freq[np.argmax(freqAmp[1:])+1])
+        angFreq = 2*np.pi*freq
+        phi = 0
+        offset = np.mean(np.array(x))
+        tri_p0 = [amp, angFreq, phi, offset]
+        C, _ = sc.curve_fit(func_dict[method], time, x, p0=tri_p0)
+    else:
+        C, _ = sc.curve_fit(func_dict[method], time, x)
+
+    #初期位置に応じて補正
+    if method=="SinF" or method=="CosF":
+        C[3] -= x0 / 1000
+    else:
+        C[0] -= x0 / 1000
+
+    if v0:  #初期速度(1次の項)を0に設定(cos, sin, 定数関数は除外)
+        if not method=='SinF' and not method=='CosF' and not method=='CF':
+            C[1] = 0
+    
+    if method == 'CF':
+        return C[0] + 0*t
+    elif method == 'LF':
+        return C[0] + C[1]*t
+    elif method == 'QF':
+        return C[0] + C[1]*t + C[2]*(t**2)
+    elif method == 'CosF':
+        return C[0]*sym.cos(C[1]*t - C[2]) + C[3]
+    elif method == 'SinF':
+        return C[0]*sym.sin(C[1]*t - C[2]) + C[3]
+    elif method == "ELF":
+        return C[0]*t
+        #return C[0]*sym.exp(C[1]*t) + C[2]*t + C[3]
+
+#フィッティング関数のバックアップ(オフセットの計算)
+"""
 def fitting(method, time, x, t):
     func_dict = {
         "CF" : constant_function, 
@@ -221,6 +272,7 @@ def fitting(method, time, x, t):
     elif method == "ELF":
         return C[0]*t
         #return C[0]*sym.exp(C[1]*t) + C[2]*t + C[3]
+"""
 
 #最適な回帰手法を選択
 def serchOptimalForm(x):
@@ -345,11 +397,13 @@ def makeGraph(xm, ym, time, x, y, origname, offset, rate):
     SavePath = "./AppFile/static/graphs/"
     t = sym.symbols('t')
     
-    xt = fitting(xm, time, x, t)
-    xt -= xt.subs(t, 0) - offset['IP'][0]/1000
+    xt = fitting(xm, time, x, t, offset['IP'][0], offset['IV'][0])
+    #xt = fitting(xm, time, x, t)
+    #xt -= xt.subs(t, 0) - offset['IP'][0]/1000
+
     vxt = sym.diff(xt)
-    if offset['IV'][0]:
-        vxt -= vxt.subs(t, 0)
+    #if offset['IV'][0]:    #初期速度0の場合は速度の式の切片を0に設定
+    #    vxt -= vxt.subs(t, 0)
     axt = sym.diff(vxt)
     plt.scatter(time, x, s=5)
     xtPath = os.path.join(SavePath, origname+"_XT.jpg")
@@ -359,11 +413,13 @@ def makeGraph(xm, ym, time, x, y, origname, offset, rate):
     saveGraph(vxt, t, time, vxPath, "X Velocity", "velocity [m/s]")
     saveGraph(axt, t, time, axPath, "X Acceleration", "acceleration [m/s^2]")
 
-    yt = fitting(ym, time, y, t)
-    yt -= yt.subs(t, 0) - offset['IP'][1]/1000
+    yt = fitting(ym, time, y, t, offset['IP'][1], offset['IV'][1])
+    #yt = fitting(ym, time, y, t)
+    #yt -= yt.subs(t, 0) - offset['IP'][1]/1000
+
     vyt = sym.diff(yt)
-    if offset['IV'][1]:
-        vyt -= vyt.subs(t, 0)
+    #if offset['IV'][1]:    #初期速度0の場合は速度の式の切片を0に設定
+    #    vyt -= vyt.subs(t, 0)
     ayt = sym.diff(vyt)
     plt.scatter(time, y, s=5)
     ytPath = os.path.join(SavePath, origname+"_YT.jpg")
